@@ -44,7 +44,7 @@ float64 = functools.partial(floatX, np_to=np.float64, torch_to=torch.float64)
 
 
 class MinimizeWrapper(torch.optim.Optimizer):
-    def __init__(self, params, minimizer_args):
+    def __init__(self, params, minimizer_args={}):
         assert type(minimizer_args) is dict
         if 'jac' not in minimizer_args:
             minimizer_args['jac'] = True
@@ -65,7 +65,7 @@ class MinimizeWrapper(torch.optim.Optimizer):
             assert minimizer_args['jac'] == False, \
                 "set minimizer_args['jac']=False to use gradient free algorithms"
         else:
-            raise ValueError(f"Method {method} not supported or does not exist")
+            raise ValueError("Method "+method+" not supported or does not exist")
         self.minimizer_args = minimizer_args
         if 'options' not in self.minimizer_args:
             self.minimizer_args.update({'options':{}})
