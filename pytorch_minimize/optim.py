@@ -182,17 +182,20 @@ class DifferentialEvolutionWrapper(MinimizeWrapper):
     def __init__(self, params, de_kwargs):
         self.minimizer_args = {'jac': False}
         self.de_kwargs = de_kwargs
+        self.bounds = self.de_kwargs.pop("bounds")
         params = self.set_floatX(params)
         super(MinimizeWrapper, self).__init__(params, self.minimizer_args)
 
     def minimize(self, func, x0, hess, **kwargs):
-        return differential_evolution(func, **self.de_kwargs)
+        return differential_evolution(func, self.bounds, args=(), x0=x0,
+                                      **self.de_kwargs)
 
 
 class SHGOWrapper(MinimizeWrapper):
     def __init__(self, params, minimizer_args, shgo_kwargs):
         minimizer_args.update({'jac': False})
         self.shgo_kwargs = shgo_kwargs
+        self.bounds = self.shgo_kwargs.pop("bounds")
         super().__init__(params, minimizer_args)
 
     def minimize(self, func, x0, **minimizer_args):
@@ -201,8 +204,8 @@ class SHGOWrapper(MinimizeWrapper):
         def obj_fun(x, *args):
             return func(x, False)
         minimizer_args['jac'] = jac_fun
-        return shgo(obj_fun, minimizer_kwargs=minimizer_args,
-                    args=[False],
+        return shgo(obj_fun, self.bounds, args=[False],
+                    minimizer_kwargs=minimizer_args,
                     **self.shgo_kwargs)
 
 
@@ -210,12 +213,13 @@ class DualAnnealingWrapper(MinimizeWrapper):
     def __init__(self, params, minimizer_args, da_kwargs):
         minimizer_args.update({'jac': False})
         self.da_kwargs = da_kwargs 
+        self.bounds = self.da_kwargs.pop("bounds")
         super().__init__(params, minimizer_args)
 
     def minimize(self, func, x0, **minimizer_args):
         jac_fun = lambda x: func(x, True)[1]
         minimizer_args['jac'] = jac_fun
-        return dual_annealing(func, local_search_options=minimizer_args,
-                args=[False],
-                **self.da_kwargs)
+        return dual_annealing(func, self.bounds, args=(),
+                              minimizer_kwargs=minimizer_args, x0=x0,
+                              **self.da_kwargs)
 
