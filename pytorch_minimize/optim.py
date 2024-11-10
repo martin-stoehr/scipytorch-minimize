@@ -6,8 +6,9 @@ from scipy.optimize import (
         brute, 
         differential_evolution, 
         shgo,
-        dual_annealing
+#        dual_annealing
         )
+from ._dual_annealing import dual_annealing
 import functools
 from copy import deepcopy
 
