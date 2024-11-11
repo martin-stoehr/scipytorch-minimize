@@ -52,16 +52,16 @@ class MinimizeWrapper(torch.optim.Optimizer):
         assert minimizer_args['jac'] in [True, False], \
                 "separate jac function not supported"
         params = self.set_floatX(params)
-        self.jac_methods = ["CG", "BFGS", "L-BFGS-B", "TNC", "SLSQP"]
-        self.hess_methods = ["Newton-CG", "dogleg", "trust-ncg",
+        self.jac_methods = ["cg", "bfgs", "l-bfgs-b", "tnc", "slsqp"]
+        self.hess_methods = ["newton-cg", "dogleg", "trust-ncg",
                              "trust-krylov", "trust-exact", "trust-constr"]
-        self.gradfree_methods = ["Nelder-Mead", "Powell", "COBYLA"]
+        self.gradfree_methods = ["nelder-mead", "powell", "cobyla"]
         method = minimizer_args['method']
-        if method in self.jac_methods:
+        if method.lower() in self.jac_methods:
             self.use_hess = False
-        elif method in self.hess_methods:
+        elif method.lower() in self.hess_methods:
             self.use_hess = True
-        elif method in self.gradfree_methods:
+        elif method.lower() in self.gradfree_methods:
             self.use_hess = False
             assert minimizer_args['jac'] == False, \
                 "set minimizer_args['jac']=False to use gradient free algorithms"
