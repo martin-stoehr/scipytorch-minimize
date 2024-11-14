@@ -182,7 +182,7 @@ class BasinHoppingWrapper(MinimizeWrapper):
 class DifferentialEvolutionWrapper(MinimizeWrapper):
     def __init__(self, params, de_kwargs):
         self.minimizer_args = {'jac': False}
-        self.de_kwargs = de_kwargs
+        self.de_kwargs = deepcopy(de_kwargs)
         self.bounds = self.de_kwargs.pop("bounds")
         params = self.set_floatX(params)
         super(MinimizeWrapper, self).__init__(params, self.minimizer_args)
@@ -195,7 +195,7 @@ class DifferentialEvolutionWrapper(MinimizeWrapper):
 class SHGOWrapper(MinimizeWrapper):
     def __init__(self, params, minimizer_args, shgo_kwargs):
         minimizer_args.update({'jac': False})
-        self.shgo_kwargs = shgo_kwargs
+        self.shgo_kwargs = deepcopy(shgo_kwargs)
         self.bounds = self.shgo_kwargs.pop("bounds")
         super().__init__(params, minimizer_args)
 
@@ -213,7 +213,7 @@ class SHGOWrapper(MinimizeWrapper):
 class DualAnnealingWrapper(MinimizeWrapper):
     def __init__(self, params, minimizer_args, da_kwargs):
         minimizer_args.update({'jac': False})
-        self.da_kwargs = da_kwargs 
+        self.da_kwargs = deepcopy(da_kwargs) 
         self.bounds = self.da_kwargs.pop("bounds")
         super().__init__(params, minimizer_args)
 
