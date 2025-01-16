@@ -13,6 +13,14 @@ import functools
 from copy import deepcopy
 
 
+## signature for random seed in basinhopping changed in v1.15
+from scipy import __version__ as v_sp
+v_sp_split = v_sp.split(".")
+if float(v_sp_split[0] + "." + "".join(v_sp_split[1:])) > 1.15:
+    bh_seed_kw = "rng"
+else:
+    bh_seed_kw = "seed"
+
 # thanks to https://stackoverflow.com/a/31174427/6937913
 # recursively set attributes
 def rsetattr(obj, attr, val):
@@ -167,6 +175,7 @@ class MinimizeWrapper(torch.optim.Optimizer):
         _params = self.np_unravel_unpack(self.res.x)
         for p, _p in zip(params, _params):
             p.data = _p
+            p.grad = _p.grad
 
 
 class BasinHoppingWrapper(MinimizeWrapper):
