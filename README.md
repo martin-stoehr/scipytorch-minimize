@@ -1,15 +1,16 @@
 PyTorch Minimize
 ================
 
-[![Build Status](https://travis-ci.com/gngdb/pytorch-minimize.svg?branch=master)](https://travis-ci.com/gngdb/pytorch-minimize)
-
 A wrapper for [`scipy.optimize.minimize`][scipy] to make it a PyTorch
-Optimizer implementing Conjugate Gradients, BFGS, l-BFGS, SLSQP, Newton
-Conjugate Gradient, Trust Region methods and others in PyTorch.
+Optimizer implementing Conjugate Gradients, BFGS, L-BFGS, SLSQP, Newton
+Conjugate Gradient, Trust Region methods and others including global
+optimization schemes.
 
-*Warning*: this project is a proof of concept and is not necessarily
-reliable, although [the code](./pytorch_minimize/optim.py) (that's all of
-it) is small enough to be readable.
+*Warning*: This project is based on a proof of concept. Only CG, (L-)BFGS,
+and BasinHopping have been specifically updated from the
+[original fork](https://github.com/gngdb/pytorch-minimize), maintained,
+and tested. However, the updates *should* apply to the rest of the code and
+the remaining scipy optimizers as well.
 
 * [Quickstart](#quickstart)
   * [Install](#install)
@@ -31,7 +32,7 @@ Quickstart
 
 Dependencies:
 
-* `pytorch`
+* `PyTorch`
 * `scipy`
 
 The following install procedure isn't going to check these are installed.
@@ -39,14 +40,14 @@ The following install procedure isn't going to check these are installed.
 This package can be installed with `pip` directly from Github:
 
 ``` 
-pip install git+https://github.com/gngdb/pytorch-minimize.git
+pip install git+https://github.com/martin-stoehr/scipytorch-minimize.git
 ```
 
 Or by cloning the repository and then installing:
 
 ```
-git clone https://github.com/gngdb/pytorch-minimize.git
-cd pytorch-minimize
+git clone https://github.com/martin-stoehr/scipytorch-minimize.git
+cd scipytorch-minimize
 python -m pip install .
 ```
 
